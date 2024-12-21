@@ -89,9 +89,41 @@ from sklearn.model_selection import train_test_split
 # Veriyi eğitim (%80) ve test (%20) olarak ayırma
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-from sklearn.preprocessing import StandardScaler
 
-# Sayısal özellikleri standartlaştırma
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
+priority_mapping = {'Low': 0, 'Medium': 1, 'High': 2}
+distance_mapping = {'Near':0, 'Moderate':1, 'Far':2}
+parental_education_mapping = {'High School':0, 'College':1, 'Postgraduate':2}
+yes_or_no_mapping = {'Yes': 1, 'No': 0}
+peer_influence_mapping = {'Negative':0, 'Neutral':1,'Positive':2}
+gender_mapping = {'Female':0, 'Male':1}
+school_type_mapping = {'Public': 0, 'Private': 1}
+
+data['Parental_Involvement'] = data['Parental_Involvement'].map(priority_mapping)
+data['Access_to_Resources'] = data['Access_to_Resources'].map(priority_mapping)
+data['Motivation_Level'] = data['Motivation_Level'].map(priority_mapping)
+data['Family_Income'] = data['Family_Income'].map(priority_mapping)
+data['Teacher_Quality'] = data['Teacher_Quality'].map(priority_mapping)
+
+data['Extracurricular_Activities'] = data['Extracurricular_Activities'].map(yes_or_no_mapping)
+data['Internet_Access'] = data['Internet_Access'].map(yes_or_no_mapping)
+data['Learning_Disabilities'] = data['Learning_Disabilities'].map(yes_or_no_mapping)
+
+data['Distance_from_Home'] = data['Distance_from_Home'].map(distance_mapping)
+
+data['Parental_Education_Level'] = data['Parental_Education_Level'].map(parental_education_mapping)
+
+data['Peer_Influence'] = data['Peer_Influence'].map(peer_influence_mapping)
+
+data['Gender'] = data['Gender'].map(gender_mapping)
+data['School_Type'] = data['School_Type'].map(school_type_mapping)
+
+data.to_csv("StudentPerformanceMapped.csv", index=False)
+
+categorical_columns = ['Parental_Involvement', 'Access_to_Resources', 'Extracurricular_Activities',
+                       'Motivation_Level', 'Internet_Access', 'Family_Income', 'Teacher_Quality',
+                       'School_Type', 'Peer_Influence', 'Learning_Disabilities',
+                       'Parental_Education_Level', 'Distance_from_Home', 'Gender']
+plt.figure(figsize=(16, 12))
+correlation_matrix = data.corr()
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+plt.show()
