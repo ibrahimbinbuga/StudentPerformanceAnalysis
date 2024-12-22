@@ -60,7 +60,7 @@ print(f"XGBoost (Tuned) - Train R²: {train_r2_best:.2f}")
 print(f"XGBoost (Tuned) - Test R²: {test_r2_best:.2f}")
 
 # SHAP için bir açıklayıcı oluştur
-explainer = shap.Explainer(xgb_model, data_prep.X_train)
+explainer = shap.Explainer(best_xgb_model, data_prep.X_train)
 shap_values = explainer(data_prep.X_test)
 
 # 1.1 Global Önem Grafiği

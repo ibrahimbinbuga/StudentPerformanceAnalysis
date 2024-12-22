@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
@@ -79,15 +80,6 @@ plt.show()
 missing_after = data.isnull().sum().sum()
 print(f"Son eksik veri sayısı: {missing_after}")
 
-target_variable = 'Exam_Score'
-# Özellikler (features) ve hedef değişkeni (target) ayırma
-X = data.drop(columns=[target_variable])  # Özellikler
-y = data[target_variable]  # Hedef değişken
-
-from sklearn.model_selection import train_test_split
-
-# Veriyi eğitim (%80) ve test (%20) olarak ayırma
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 
 priority_mapping = {'Low': 0, 'Medium': 1, 'High': 2}
@@ -127,3 +119,217 @@ plt.figure(figsize=(16, 12))
 correlation_matrix = data.corr()
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
 plt.show()
+
+target_variable = 'Exam_Score'
+# Özellikler (features) ve hedef değişkeni (target) ayırma
+X = data.drop(columns=[target_variable])  # Özellikler
+y = data[target_variable]  # Hedef değişken
+
+from sklearn.model_selection import train_test_split
+
+# Veriyi eğitim (%70) ve test (%30) olarak ayırma
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Modeli tanımlama
+linear_model = LinearRegression()
+
+# Lineer regresyon modelini eğitme
+linear_model.fit(X_train, y_train)
+
+# Test verisi üzerinde tahmin yapma
+y_pred = linear_model.predict(X_test)
+
+# Performans metriği (MSE ve R²)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f"Lineer Regresyon - Mean Squared Error (MSE): {mse:.2f}")
+print(f"Lineer Regresyon - R²: {r2:.2f}")
+
+coefficients = pd.DataFrame({
+    "Feature": X.columns,
+    "Coefficient": linear_model.coef_
+})
+print(coefficients.sort_values(by="Coefficient", ascending=False))
+
+# Modeli tanımlama (max_depth ve n_estimators ayarlandı)
+random_forest = RandomForestRegressor(n_estimators=50, max_depth=10, random_state=42)
+
+# Modeli eğitme
+random_forest.fit(X_train, y_train)
+
+# Tahminler
+y_pred_train = random_forest.predict(X_train)
+y_pred_test = random_forest.predict(X_test)
+
+# Performans metrikleri
+train_mse = mean_squared_error(y_train, y_pred_train)
+test_mse = mean_squared_error(y_test, y_pred_test)
+
+train_r2 = r2_score(y_train, y_pred_train)
+test_r2 = r2_score(y_test, y_pred_test)
+
+print(f"Random Forest (Adjusted) - Train MSE: {train_mse:.2f}")
+print(f"Random Forest (Adjusted) - Test MSE: {test_mse:.2f}")
+print(f"Random Forest (Adjusted) - Train R²: {train_r2:.2f}")
+print(f"Random Forest (Adjusted) - Test R²: {test_r2:.2f}")
+
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {
+    'n_estimators': [100, 200, 300],
+    'learning_rate': [0.01, 0.05, 0.1],
+    'max_depth': [3, 5, 7]
+}
+
+grid_search = GridSearchCV(
+    GradientBoostingRegressor(random_state=42),
+    param_grid,
+    scoring='r2',
+    cv=5
+)
+grid_search.fit(X_train, y_train)
+
+print("Best parameters:", grid_search.best_params_)
+best_model = grid_search.best_estimator_
+
+# Modeli tanımlama
+gbr = GradientBoostingRegressor(n_estimators=100, learning_rate=0.1, max_depth=5, random_state=42)
+
+# Modeli eğitme
+gbr.fit(X_train, y_train)
+
+# Tahminler
+y_pred_train_gbr = gbr.predict(X_train)
+y_pred_test_gbr = gbr.predict(X_test)
+
+# Performans metrikleri
+train_mse_gbr = mean_squared_error(y_train, y_pred_train_gbr)
+test_mse_gbr = mean_squared_error(y_test, y_pred_test_gbr)
+
+train_r2_gbr = r2_score(y_train, y_pred_train_gbr)
+test_r2_gbr = r2_score(y_test, y_pred_test_gbr)
+
+print(f"Gradient Boosting - Train MSE: {train_mse_gbr:.2f}")
+print(f"Gradient Boosting - Test MSE: {test_mse_gbr:.2f}")
+print(f"Gradient Boosting - Train R²: {train_r2_gbr:.2f}")
+print(f"Gradient Boosting - Test R²: {test_r2_gbr:.2f}")
+
+import matplotlib.pyplot as plt
+
+feature_importances = gbr.feature_importances_
+sorted_idx = feature_importances.argsort()
+
+plt.figure(figsize=(10, 8))
+plt.barh(X.columns[sorted_idx], feature_importances[sorted_idx])
+plt.xlabel("Özellik Önemi")
+plt.title("Gradient Boosting Özellik Önemleri")
+plt.show()
+
+import shap
+
+# SHAP için bir açıklayıcı oluştur
+explainer = shap.Explainer(gbr, X_train)
+shap_values = explainer(X_test)
+
+# 1.1 Global Önem Grafiği
+shap.summary_plot(shap_values, X_test, plot_type="bar")
+
+# 1.2 Detaylı Global Özet
+shap.summary_plot(shap_values, X_test)
+
+# 1.3 Bireysel Tahmin Açıklaması
+# Örneğin, X_test'in ilk satırı için
+shap.waterfall_plot(shap.Explanation(values=shap_values[0].values,
+                                     base_values=shap_values[0].base_values,
+                                     data=X_test.iloc[0]))
+
+
+import xgboost as xgb
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import GridSearchCV
+
+# 1. XGBoost modelini oluştur
+xgb_model = xgb.XGBRegressor(random_state=42)
+
+# 2. Modeli eğit (Varsayılan parametrelerle)
+xgb_model.fit(X_train, y_train)
+
+# 3. Tahmin yap ve sonuçları değerlendir
+y_train_pred = xgb_model.predict(X_train)
+y_test_pred = xgb_model.predict(X_test)
+
+train_mse = mean_squared_error(y_train, y_train_pred)
+test_mse = mean_squared_error(y_test, y_test_pred)
+train_r2 = r2_score(y_train, y_train_pred)
+test_r2 = r2_score(y_test, y_test_pred)
+
+print(f"XGBoost - Train MSE: {train_mse:.2f}")
+print(f"XGBoost - Test MSE: {test_mse:.2f}")
+print(f"XGBoost - Train R²: {train_r2:.2f}")
+print(f"XGBoost - Test R²: {test_r2:.2f}")
+
+# 4. Hiperparametre optimizasyonu (GridSearchCV ile)
+param_grid = {
+    'n_estimators': [100, 200, 300],
+    'max_depth': [3, 4, 5],
+    'learning_rate': [0.01, 0.1, 0.2],
+    'subsample': [0.8, 1.0],
+    'colsample_bytree': [0.8, 1.0]
+}
+
+grid_search = GridSearchCV(estimator=xgb_model, param_grid=param_grid, cv=3, scoring='neg_mean_squared_error', verbose=1, n_jobs=-1)
+grid_search.fit(X_train, y_train)
+
+# En iyi parametreleri bul
+best_params = grid_search.best_params_
+print(f"Best parameters: {best_params}")
+
+# 5. En iyi parametrelerle model eğitimi
+best_xgb_model = xgb.XGBRegressor(**best_params, random_state=42)
+best_xgb_model.fit(X_train, y_train)
+
+# 6. Tahmin yap ve sonuçları değerlendir
+y_train_pred_best = best_xgb_model.predict(X_train)
+y_test_pred_best = best_xgb_model.predict(X_test)
+
+train_mse_best = mean_squared_error(y_train, y_train_pred_best)
+test_mse_best = mean_squared_error(y_test, y_test_pred_best)
+train_r2_best = r2_score(y_train, y_train_pred_best)
+test_r2_best = r2_score(y_test, y_test_pred_best)
+
+print(f"XGBoost (Tuned) - Train MSE: {train_mse_best:.2f}")
+print(f"XGBoost (Tuned) - Test MSE: {test_mse_best:.2f}")
+print(f"XGBoost (Tuned) - Train R²: {train_r2_best:.2f}")
+print(f"XGBoost (Tuned) - Test R²: {test_r2_best:.2f}")
+
+# SHAP için bir açıklayıcı oluştur
+explainer = shap.Explainer(gbr, X_train)
+shap_values = explainer(X_test)
+
+# 1.1 Global Önem Grafiği
+shap.summary_plot(shap_values, X_test, plot_type="bar")
+
+# 1.2 Detaylı Global Özet
+shap.summary_plot(shap_values, X_test)
+
+# 1.3 Bireysel Tahmin Açıklaması
+# Örneğin, X_test'in ilk satırı için
+shap.waterfall_plot(shap.Explanation(values=shap_values[0].values,
+                                     base_values=shap_values[0].base_values,
+                                     data=X_test.iloc[0]))
+
+X['Distance_Sleep_Interaction'] = X['Distance_From_Home'] * X['Sleep_Time']
+X['Previous_Score_Motivation_Interaction'] = X['Previous_Score'] * X['Motivation_Level']
+X['Parental_Involvement_Motivation_Interaction'] = X['Parental_Involvement'] * X['Motivation_Level']
+X['Peer_Influence_Motivation_Interaction'] = X['Peer_Influence'] * X['Motivation_Level']
+X['Parental_Income_Access_To_Resources_Interaction'] = X['Parental_Income'] * X['Access_to_Resources']
+X['Internet_Access_Access_To_Resources_Interaction'] = X['Internet_Access'] * X['Access_to_Resources']
+X['Physical_Activity_Motivation_Interaction'] = X['Physical_Activity'] * X['Motivation_Level']
+X['Family_Income_Tutoring_Sessions_Interaction'] = X['Family_Income'] * X['Tutoring_Sessions']
+X['Family_Income_School_Type_Interaction'] = X['Family_Income'] * X['School_Type']
+X['Peer_Influence_Parental_Involvement_Motivation_Interaction'] = X['Peer_Influence'] * X['Parental_Involvement'] * X['Motivation_Level']
