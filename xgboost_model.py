@@ -1,5 +1,5 @@
 import shap
-
+import pandas as pd
 import data_prep
 import xgboost as xgb
 from sklearn.metrics import mean_squared_error, r2_score
@@ -74,3 +74,36 @@ shap.summary_plot(shap_values, data_prep.X_test)
 shap.waterfall_plot(shap.Explanation(values=shap_values[0].values,
                                      base_values=shap_values[0].base_values,
                                      data=data_prep.X_test.iloc[0]))
+
+
+# Öğrencinin verisini bir sözlük olarak tanımlayın
+student_data = {
+    'Hours_Studied': 30,                    # Haftalık çalışma saati
+    'Attendance': 100,                       # Katılım oranı (%)
+    'Parental_Involvement': 2,              # Aile katılımı (3: High)
+    'Access_to_Resources': 2,               # Kaynaklara erişim (2: Medium)
+    'Extracurricular_Activities': 1,        # Ekstra aktivitelerde katılım (1: Yes)
+    'Sleep_Hours': 7,                       # Uyku saati
+    'Previous_Scores': 100,                  # Önceki sınav puanı
+    'Motivation_Level': 2,                  # Motivasyon seviyesi (2: Medium)
+    'Internet_Access': 1,                   # İnternet erişimi (1: Yes)
+    'Tutoring_Sessions': 10,                # Katılınan özel ders sayısı
+    'Family_Income': 2,                     # Aile geliri (3: High)
+    'Teacher_Quality': 2,                   # Öğretmen kalitesi (2: Medium)
+    'School_Type': 1,                       # Okul türü (1: Private)
+    'Peer_Influence': 1,                    # Akran etkisi (1: Positive)
+    'Physical_Activity': 5,                 # Haftalık fiziksel aktivite saati
+    'Learning_Disabilities': 0,             # Öğrenme güçlüğü (0: No)
+    'Parental_Education_Level': 3,          # Ebeveynin eğitim durumu (3: Postgraduate)
+    'Distance_from_Home': 0,                # Okul mesafesi (2: Moderate)
+    'Gender': 0                             # Cinsiyet (1: Female)
+}
+
+# Bu veriyi pandas DataFrame formatına dönüştürün
+student_df = pd.DataFrame([student_data])
+
+# Öğrenci verisi ile tahmin yapın
+student_prediction = best_xgb_model.predict(student_df)
+
+# Tahmin edilen sınav puanını yazdır
+print(f"Öğrencinin tahmin edilen sınav puanı: {student_prediction[0]:.2f}")

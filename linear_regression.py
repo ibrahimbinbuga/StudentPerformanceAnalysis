@@ -1,7 +1,7 @@
 import data_prep
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
-
+import pandas as pd
 # Modeli tanımlama
 linear_model = LinearRegression()
 
@@ -19,7 +19,7 @@ print(f"Lineer Regresyon - Mean Squared Error (MSE): {mse:.2f}")
 print(f"Lineer Regresyon - R²: {r2:.2f}")
 
 coefficients = pd.DataFrame({
-    "Feature": X.columns,
+    "Feature": data_prep.X.columns,
     "Coefficient": linear_model.coef_
 })
 print(coefficients.sort_values(by="Coefficient", ascending=False))
