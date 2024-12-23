@@ -32,6 +32,20 @@ print(f"XGBoost - Test MAE: {test_mae:.2f}")
 print(f"XGBoost - Train R²: {train_r2:.2f}")
 print(f"XGBoost - Test R²: {test_r2:.2f}")
 
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 6))
+plt.scatter(data_prep.y_test, y_test_pred, alpha=0.6, color='dodgerblue', edgecolor='k', label='Tahminler')
+plt.plot([data_prep.y_test.min(), data_prep.y_test.max()], 
+         [data_prep.y_test.min(), data_prep.y_test.max()], 
+         color='red', linewidth=2, linestyle='--', label='Doğru Çizgi (y=x)')
+plt.xlabel("Actual values", fontsize=12)
+plt.ylabel("Prediction values", fontsize=12)
+plt.title("Actual values vs Prediction values", fontsize=14, fontweight='bold')
+plt.legend(fontsize=10, loc='upper left')
+plt.grid(alpha=0.4, linestyle='--')
+plt.tight_layout()
+plt.show()
+
 # 4. Hiperparametre optimizasyonu (GridSearchCV ile)
 param_grid = {
     'n_estimators': [100, 200, 300],
@@ -87,6 +101,21 @@ shap.summary_plot(shap_values, data_prep.X_test)
 shap.waterfall_plot(shap.Explanation(values=shap_values[0].values,
                                      base_values=shap_values[0].base_values,
                                      data=data_prep.X_test.iloc[0]))
+
+# Grafik
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 6))
+plt.scatter(data_prep.y_test, y_test_pred_best, alpha=0.6, color='dodgerblue', edgecolor='k', label='Tahminler')
+plt.plot([data_prep.y_test.min(), data_prep.y_test.max()], 
+         [data_prep.y_test.min(), data_prep.y_test.max()], 
+         color='red', linewidth=2, linestyle='--', label='Doğru Çizgi (y=x)')
+plt.xlabel("Actual values", fontsize=12)
+plt.ylabel("Prediction values", fontsize=12)
+plt.title("Actual values vs Prediction values", fontsize=14, fontweight='bold')
+plt.legend(fontsize=10, loc='upper left')
+plt.grid(alpha=0.4, linestyle='--')
+plt.tight_layout()
+plt.show()
 
 
 # Öğrencinin verisini bir sözlük olarak tanımlayın
