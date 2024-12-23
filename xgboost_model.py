@@ -4,6 +4,7 @@ import data_prep
 import xgboost as xgb
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import mean_absolute_error
 
 # 1. XGBoost modelini oluştur
 xgb_model = xgb.XGBRegressor(random_state=42)
@@ -19,9 +20,15 @@ train_mse = mean_squared_error(data_prep.y_train, y_train_pred)
 test_mse = mean_squared_error(data_prep.y_test, y_test_pred)
 train_r2 = r2_score(data_prep.y_train, y_train_pred)
 test_r2 = r2_score(data_prep.y_test, y_test_pred)
+train_mae = mean_absolute_error(data_prep.y_train, y_train_pred)
+test_mae = mean_absolute_error(data_prep.y_test, y_test_pred)
 
 print(f"XGBoost - Train MSE: {train_mse:.2f}")
 print(f"XGBoost - Test MSE: {test_mse:.2f}")
+
+print(f"XGBoost - Train MAE: {train_mae:.2f}")
+print(f"XGBoost - Test MAE: {test_mae:.2f}")
+
 print(f"XGBoost - Train R²: {train_r2:.2f}")
 print(f"XGBoost - Test R²: {test_r2:.2f}")
 
@@ -53,9 +60,15 @@ train_mse_best = mean_squared_error(data_prep.y_train, y_train_pred_best)
 test_mse_best = mean_squared_error(data_prep.y_test, y_test_pred_best)
 train_r2_best = r2_score(data_prep.y_train, y_train_pred_best)
 test_r2_best = r2_score(data_prep.y_test, y_test_pred_best)
+train_mae_best = mean_absolute_error(data_prep.y_train, y_train_pred_best)
+test_mae_best = mean_absolute_error(data_prep.y_test, y_test_pred_best)
 
 print(f"XGBoost (Tuned) - Train MSE: {train_mse_best:.2f}")
 print(f"XGBoost (Tuned) - Test MSE: {test_mse_best:.2f}")
+
+print(f"XGBoost (Tuned) - Train MAE: {train_mae_best:.2f}")
+print(f"XGBoost (Tuned) - Test MAE: {test_mae_best:.2f}")
+
 print(f"XGBoost (Tuned) - Train R²: {train_r2_best:.2f}")
 print(f"XGBoost (Tuned) - Test R²: {test_r2_best:.2f}")
 

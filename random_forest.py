@@ -1,6 +1,6 @@
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
-
+from sklearn.metrics import mean_absolute_error
 import data_prep
 
 # Modeli tanımlama (max_depth ve n_estimators ayarlandı)
@@ -17,10 +17,17 @@ y_pred_test = random_forest.predict(data_prep.X_test)
 train_mse = mean_squared_error(data_prep.y_train, y_pred_train)
 test_mse = mean_squared_error(data_prep.y_test, y_pred_test)
 
+train_mae = mean_absolute_error(data_prep.y_train, y_pred_train)
+test_mae = mean_absolute_error(data_prep.y_test, y_pred_test)
+
 train_r2 = r2_score(data_prep.y_train, y_pred_train)
 test_r2 = r2_score(data_prep.y_test, y_pred_test)
 
 print(f"Random Forest (Adjusted) - Train MSE: {train_mse:.2f}")
 print(f"Random Forest (Adjusted) - Test MSE: {test_mse:.2f}")
+
+print(f"Random Forest (Adjusted) - Train MAE: {train_mae:.2f}")
+print(f"Random Forest (Adjusted) - Test MAE: {test_mae:.2f}")
+
 print(f"Random Forest (Adjusted) - Train R²: {train_r2:.2f}")
 print(f"Random Forest (Adjusted) - Test R²: {test_r2:.2f}")

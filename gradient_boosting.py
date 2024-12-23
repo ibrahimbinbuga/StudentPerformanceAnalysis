@@ -3,6 +3,8 @@ from sklearn.metrics import mean_squared_error, r2_score
 import data_prep
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import mean_absolute_error
+
 
 param_grid = {
     'n_estimators': [100, 200, 300],
@@ -35,11 +37,18 @@ y_pred_test_gbr = gbr.predict(data_prep.X_test)
 train_mse_gbr = mean_squared_error(data_prep.y_train, y_pred_train_gbr)
 test_mse_gbr = mean_squared_error(data_prep.y_test, y_pred_test_gbr)
 
+train_mae_gbr = mean_absolute_error(data_prep.y_train, y_pred_train_gbr)
+test_mae_gbr = mean_absolute_error(data_prep.y_test, y_pred_test_gbr)
+
 train_r2_gbr = r2_score(data_prep.y_train, y_pred_train_gbr)
 test_r2_gbr = r2_score(data_prep.y_test, y_pred_test_gbr)
 
 print(f"Gradient Boosting - Train MSE: {train_mse_gbr:.2f}")
 print(f"Gradient Boosting - Test MSE: {test_mse_gbr:.2f}")
+
+print(f"Gradient Boosting - Train MAE: {train_mae_gbr:.2f}")
+print(f"Gradient Boosting - Test MAE: {test_mae_gbr:.2f}")
+
 print(f"Gradient Boosting - Train R²: {train_r2_gbr:.2f}")
 print(f"Gradient Boosting - Test R²: {test_r2_gbr:.2f}")
 
