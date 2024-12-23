@@ -47,6 +47,14 @@ data.to_csv("StudentPerformanceFactorsFilled.csv", index=False)
 missing_after = data.isnull().sum().sum()
 print(f"Son eksik veri sayısı: {missing_after}")
 
+# Kategorik verilerin dağılımı (Bar grafik)
+for col in categorical_columns:
+    plt.figure(figsize=(8, 6))
+    sns.countplot(data[col])
+    plt.title(f'{col} Dağılımı')
+    plt.show()
+
+
 
 priority_mapping = {'Low': 0, 'Medium': 1, 'High': 2}
 distance_mapping = {'Near':0, 'Moderate':1, 'Far':2}

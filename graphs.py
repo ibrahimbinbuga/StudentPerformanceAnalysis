@@ -15,12 +15,7 @@ for col in data_prep.numeric_columns:
     plt.title(f'{col} Boxplot')
     plt.show()
 
-# Kategorik verilerin dağılımı (Bar grafik)
-for col in data_prep.categorical_columns:
-    plt.figure(figsize=(8, 6))
-    sns.countplot(data_prep.data[col])
-    plt.title(f'{col} Dağılımı')
-    plt.show()
+
 
 # Korelasyon ısı haritası
 correlation_matrix = data_prep.data[data_prep.numeric_columns].corr()
