@@ -1,53 +1,51 @@
-# Student Performance Dataset
+# Student Performance Factor
 
-## Proje Tanımı
-Bu proje, öğrenci performansını etkileyen çeşitli faktörleri analiz etmeyi amaçlayan bir makine öğrenimi projesidir. Proje, öğrencilerin derslerdeki başarılarını etkileyen faktörleri inceleyerek, bu faktörlere dayalı olarak başarı tahminleri yapmayı hedefler. Veri seti, çalışma alışkanlıkları, devamsızlık, ebeveyn katılımı gibi birçok faktörü içermektedir.
+## Project Description
+This project is a machine learning project aimed at analyzing various factors affecting student performance. The project seeks to examine factors influencing students' academic success and make predictions based on these factors. The dataset includes many variables such as study habits, attendance, and parental involvement.
 ****************************************************************************************************
 ## İçindekiler
-*   [Proje Özeti](#proje-ozeti)
-*   [Veri Seti](#veri-seti)
+*   [Project Summary](#project-summary)
+*   [Dataset](#dataset)
 *   [Data Preparation](#data-preparation)
-*   [Model Eğitimi](#model-egitimi)
-*   [Kullanım](#kullanım)
+*   [Model Training](#model-traning)
+*   [Usage](#usage)
 *   [Test ve Değerlendirme](#test-ve-degerlendirme)
-*   [Katkı](#katki)
+*   [Contribution](#contribution)
 ****************************************************************************************************
 
-## Proje Özeti
-Bu proje, öğrenci başarılarını etkileyen faktörleri incelemekte ve bu faktörlere dayanarak öğrenci performansını tahmin etmektedir. Öğrencilerin akademik başarılarını etkileyen faktörler, çalışma alışkanlıkları, ebeveyn katılımı, ders dışı etkinliklere katılım, uyku düzeni, önceki sınav notları, öğretmen kalitesi gibi bir dizi önemli faktörü içermektedir.
+## Project Summary
+This project analyzes factors affecting student success and predicts student performance based on these factors. The significant factors influencing students' academic success include study habits, parental involvement, participation in extracurricular activities, sleep patterns, previous exam scores, and teacher quality.
 
-Projede kullanılan makine öğrenimi modelleri, bu faktörleri analiz ederek öğrenci başarıları üzerinde tahminler yapmaktadır.
+The machine learning models used in the project analyze these factors to predict academic performance.
 
 ****************************************************************************************************
-## Veri Seti
-Bu veri seti, öğrencilerin sınav başarılarını etkileyen çeşitli faktörleri kapsamlı bir şekilde incelemektedir. Veri seti, çalışma alışkanlıkları, devamsızlık, ebeveyn katılımı ve diğer akademik başarıyı etkileyen etmenleri içermektedir.
+## Dataset
+This dataset comprehensively examines various factors affecting students' exam success. It includes variables such as study habits, attendance, parental involvement, and other factors influencing academic performance.
 
-
-
-Veri seti, öğrencilerin çeşitli özelliklerini ve sınav sonuçlarını içerir. Bu özellikler, öğrencinin ders çalışma süresi, okula devam oranı, ebeveyn katılım düzeyi, kaynak erişimi, uyku saati gibi faktörleri kapsar. Bu faktörlerin her biri, öğrencinin sınav başarısını etkileyebilecek önemli unsurlardır.
+The dataset contains various student attributes and exam results. These attributes include study time, school attendance rate, parental involvement level, resource accessibility, sleep hours, and more. Each of these factors plays an essential role in impacting exam success.
 
 | **Sütun Adı**              | **Açıklama**                                                                 |
 |----------------------------|-----------------------------------------------------------------------------|
-| **Hours_Studied**           | Haftada geçirilen çalışma saati sayısı.                                      |
-| **Attendance**              | Katılımcı olunan derslerin yüzdesi.                                          |
-| **Parental_Involvement**    | Ebeveynlerin eğitimdeki katılım düzeyi (Low, Medium, High).                  |
-| **Access_to_Resources**     | Eğitim kaynaklarının erişilebilirliği (Low, Medium, High).                   |
-| **Extracurricular_Activities** | Ekstra müfredat etkinliklerine katılım (Yes, No).                           |
-| **Sleep_Hours**             | Ortalama uyku saati (günlük).                                                |
-| **Previous_Scores**         | Önceki sınav sonuçları.                                                      |
-| **Motivation_Level**        | Öğrencinin motivasyon düzeyi (Low, Medium, High).                            |
-| **Internet_Access**         | İnternet erişimi (Yes, No).                                                  |
-| **Tutoring_Sessions**       | Aylık katılınan özel ders sayısı.                                            |
-| **Family_Income**           | Aile geliri düzeyi (Low, Medium, High).                                      |
-| **Teacher_Quality**         | Öğretmenlerin kalitesi (Low, Medium, High).                                  |
-| **School_Type**             | Okul türü (Public, Private).                                                 |
-| **Peer_Influence**          | Arkadaş çevresinin akademik başarıya etkisi (Positive, Neutral, Negative).   |
-| **Physical_Activity**       | Haftada yapılan ortalama fiziksel aktivite saati.                            |
-| **Learning_Disabilities**   | Öğrenme güçlüklerinin varlığı (Yes, No).                                     |
-| **Parental_Education_Level**| Ebeveynlerin eğitim düzeyi (High School, College, Postgraduate).             |
-| **Distance_from_Home**      | Okula mesafe (Near, Moderate, Far).                                          |
-| **Gender**                  | Öğrencinin cinsiyeti (Male, Female).                                         |
-| **Exam_Score**              | Final sınav puanı.                                                           |
+| **Hours_Studied**           | Number of study hours per week.                                      |
+| **Attendance**              | 	Percentage of classes attended.                                          |
+| **Parental_Involvement**    | Level of parental involvement in education (Low, Medium, High).                  |
+| **Access_to_Resources**     | Accessibility of educational resources (Low, Medium, High).                |
+| **Extracurricular_Activities** | 	Participation in extracurricular activities (Yes, No).                          |
+| **Sleep_Hours**             | 	Average sleep hours per day.                                             |
+| **Previous_Scores**         | Previous exam scores.                                             |
+| **Motivation_Level**        | Student's motivation level (Low, Medium, High).                         |
+| **Internet_Access**         |	Internet access (Yes, No).                                           |
+| **Tutoring_Sessions**       | Number of private tutoring sessions per month.                                     |
+| **Family_Income**           | 	Family income level (Low, Medium, High).                              |
+| **Teacher_Quality**         | Teacher quality (Low, Medium, High).                                |
+| **School_Type**             | 	Type of school (Public, Private).                                                 |
+| **Peer_Influence**          |Influence of peers on academic success (Positive, Neutral, Negative).   |
+| **Physical_Activity**       | Average hours of physical activity per week.                           |
+| **Learning_Disabilities**   | Presence of learning disabilities (Yes, No).                                   |
+| **Parental_Education_Level**| Parental education level (High School, College, Postgraduate).           |
+| **Distance_from_Home**      | Distance from home to school (Near, Moderate, Far).                           |
+| **Gender**                  |Gender of the student (Male, Female).                                       |
+| **Exam_Score**              |Final exam score.                                                          |
 ****************************************************************************************************
 ## Data Preparation
 The data preparation process was carried out in the following steps:
@@ -86,19 +84,18 @@ The data preparation process was carried out in the following steps:
 
 - The preprocessed data was saved into StudentPerformanceMapped.csv for reproducibility and reference.
 ****************************************************************************************************
-## Model Eğitimi
-4 adet model eğitilmiştir.
+## Model Training
+Four models were trained.
 
 ****************************************************************************************************
 
 #### Linear Model
-##### Why we tried it:
-- We used it as the first step because it is simple and explainable. 
-- We wanted to see the linear relationships between the target variable and the features.
-##### Why we didn't choose it:
-- Because we thought there are non-linear relationships between the features in our dataset.
-
-##### Performans Değerlendirmesi:
+##### Reasons for Selection:
+- Initially utilized due to its simplicity and explainability.
+- It provided insights into the linear relationships between the target variable and the features.
+##### Reason for Exclusion:
+- Non-linear relationships between the features in the dataset were identified.
+##### Performance Evaluation:
 - Mean Squared Error (MSE): 3.13
 - Mean Absolute Error (MAE): 0.46
 - R²: 0.77
@@ -107,28 +104,26 @@ The data preparation process was carried out in the following steps:
 
 
 #### Random Forest Regressor
-##### Why we tried it:
-- It performs well on non-linear data and datasets with many features.
-- It calculates feature importance.
-- It helps prevent overfitting.
-##### Why we didn't choose it:
-- We thought there were more complex relationships between the features
-- It lagged behind XGBoost in terms of performance metrics and speed
+##### Reasons for Selection:
+- Suitable for non-linear data and datasets with multiple features.
+- Calculates feature importance.
+- Helps mitigate overfitting.
+##### Reason for Exclusion:
+- Despite its robust performance metrics, it was outperformed by XGBoost in terms of accuracy and speed.
 
-##### Performans Değerlendirmesi:
+##### Performance Evaluation:
 - Mean Squared Error (MSE): 4.61
 - Mean Absolute Error (MAE): 1.13
 - R²: 0.66
 ****************************************************************************************************
   
 #### Gradient Boosting Regressor
-##### Why we tried it:
-- Because of its capacity to learn more complex relationships.
-- It works with the concept of incremental learning.
-##### Why we didn't choose it:
-- While its performance metrics were close to XGBoost, it lagged behind in flexibility and speed.
-
-##### Performans Değerlendirmesi:
+##### Reasons for Selection:
+- Chosen for its capacity to model complex relationships.
+- Operates on the principle of incremental learning.
+##### Reason for Exclusion:
+- Although its performance metrics were close to XGBoost, it fell short in terms of flexibility and speed.
+##### Performance Evaluation:
 - Mean Squared Error (MSE): 3.96
 - Mean Absolute Error (MAE): 0.83
 - R²: 0.71
@@ -136,24 +131,21 @@ The data preparation process was carried out in the following steps:
 ****************************************************************************************************
   
 #### XGBoost
-##### Why we tried it:
-- Because it provides explainability of the features' impact on the target variable.
-- It also has fast computation capabilities.
-
+##### Reasons for Selection
+- Selected due to its capability to explain the impact of features on the target variable.
+- Offers efficient computation.
 #### Feature Intereaction Engineering
 - Interactions between seemingly insignificant features can influence the features that have a greater impact on exam scores.
-- Therefore, we established logical relationships between some features in the dataset. Example:
-
+- Logical relationships between key variables in the dataset were established. Example:
 - Distance_from_Home -> Hours_Studied -> Exam_Score
 - Family_Income -> School_Type -> Exam_Score
 - Internet_Access -> Access_to_Resources -> Exam_Score
-##### Why we chose it:
-- It provided the best performance metrics.
-- We observed an improvement in the model after feature interaction engineering.
-- The model was able to learn both linear and non-linear relationships.
-- The model was further improved after hyperparameter optimizaiton.
-
-##### Performans Değerlendirmesi:
+##### Reasons for Final Selection:
+- Demonstrated superior performance metrics.
+- Significant improvement was observed after implementing feature interaction engineering.
+- Effectively learned both linear and non-linear relationships.
+- Further enhancement was achieved through hyperparameter optimization.
+##### Performance Evaluation:
 - Mean Squared Error (MSE): 3.46
 - Mean Absolute Error (MAE): 0.68
 - R²: 0.75
