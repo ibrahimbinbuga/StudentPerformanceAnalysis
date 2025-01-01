@@ -145,7 +145,7 @@ The data preparation process was carried out in the following steps:
 - Therefore, we established logical relationships between some features in the dataset. Example:
 
 - Distance_from_Home -> Hours_Studied -> Exam_Score
--Family_Income -> School_Type -> Exam_Score
+- Family_Income -> School_Type -> Exam_Score
 - Internet_Access -> Access_to_Resources -> Exam_Score
 ##### Why we chose it:
 - It provided the best performance metrics.
