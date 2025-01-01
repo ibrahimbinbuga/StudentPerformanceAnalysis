@@ -2,22 +2,23 @@
 
 ## Proje Tanımı
 Bu proje, öğrenci performansını etkileyen çeşitli faktörleri analiz etmeyi amaçlayan bir makine öğrenimi projesidir. Proje, öğrencilerin derslerdeki başarılarını etkileyen faktörleri inceleyerek, bu faktörlere dayalı olarak başarı tahminleri yapmayı hedefler. Veri seti, çalışma alışkanlıkları, devamsızlık, ebeveyn katılımı gibi birçok faktörü içermektedir.
-
+****************************************************************************************************
 ## İçindekiler
 *   [Proje Özeti](#proje-ozeti)
 *   [Veri Seti](#veri-seti)
+*   [Data Preparation](#data-preparation)
 *   [Model Eğitimi](#model-egitimi)
 *   [Kullanım](#kullanım)
 *   [Test ve Değerlendirme](#test-ve-degerlendirme)
 *   [Katkı](#katki)
-
+****************************************************************************************************
 
 ## Proje Özeti
 Bu proje, öğrenci başarılarını etkileyen faktörleri incelemekte ve bu faktörlere dayanarak öğrenci performansını tahmin etmektedir. Öğrencilerin akademik başarılarını etkileyen faktörler, çalışma alışkanlıkları, ebeveyn katılımı, ders dışı etkinliklere katılım, uyku düzeni, önceki sınav notları, öğretmen kalitesi gibi bir dizi önemli faktörü içermektedir.
 
 Projede kullanılan makine öğrenimi modelleri, bu faktörleri analiz ederek öğrenci başarıları üzerinde tahminler yapmaktadır.
 
-
+****************************************************************************************************
 ## Veri Seti
 Bu veri seti, öğrencilerin sınav başarılarını etkileyen çeşitli faktörleri kapsamlı bir şekilde incelemektedir. Veri seti, çalışma alışkanlıkları, devamsızlık, ebeveyn katılımı ve diğer akademik başarıyı etkileyen etmenleri içermektedir.
 
@@ -47,14 +48,50 @@ Veri seti, öğrencilerin çeşitli özelliklerini ve sınav sonuçlarını içe
 | **Distance_from_Home**      | Okula mesafe (Near, Moderate, Far).                                          |
 | **Gender**                  | Öğrencinin cinsiyeti (Male, Female).                                         |
 | **Exam_Score**              | Final sınav puanı.                                                           |
+****************************************************************************************************
+## Data Preparation
+The data preparation process was carried out in the following steps:
 
+#### Loading the Dataset:
 
+- The dataset StudentPerformanceFactors.csv was loaded into a Pandas DataFrame for further analysis.
+#### Separation of Columns:
+
+- Numerical and categorical columns were separated based on their data types.
+#### Handling Missing Data:
+
+- For categorical columns, missing values were replaced with the mode of each column.
+- For numerical columns, the missing values were imputed using K-Nearest Neighbors (KNN) after scaling the data to normalize the values.
+#### Outlier Analysis:
+
+- Boxplots were created for each numerical column to visualize potential outliers.
+- No outlier removal was performed at this stage, but it was noted for further optimization.
+#### Data Visualization:
+
+- Distribution plots and histograms were generated for numerical columns to understand their spread and distribution.
+- Bar plots were created for categorical columns to visualize category frequencies.
+#### Correlation Analysis:
+
+- A heatmap of the correlation matrix was plotted to identify significant relationships between numerical features.
+#### Mapping Categorical Values:
+
+- Categorical columns were encoded into numerical values using custom mappings for better compatibility with machine learning algorithms.
+#### Feature Engineering:
+
+- Interaction terms were created between key variables.
+#### Splitting the Data:
+
+- The dataset was split into training (70%) and testing (30%) subsets to prepare for model training and evaluation.
+#### Final Preprocessed Data:
+
+- The preprocessed data was saved into StudentPerformanceMapped.csv for reproducibility and reference.
+****************************************************************************************************
 ## Model Eğitimi
 4 adet model eğitilmiştir.
 
 ****************************************************************************************************
 
-### Linear Model
+#### Linear Model
 ##### Why we tried it:
 - We used it as the first step because it is simple and explainable. 
 - We wanted to see the linear relationships between the target variable and the features.
@@ -69,7 +106,7 @@ Veri seti, öğrencilerin çeşitli özelliklerini ve sınav sonuçlarını içe
 ****************************************************************************************************
 
 
-### Random Forest Regressor
+#### Random Forest Regressor
 ##### Why we tried it:
 - It performs well on non-linear data and datasets with many features.
 - It calculates feature importance.
@@ -84,7 +121,7 @@ Veri seti, öğrencilerin çeşitli özelliklerini ve sınav sonuçlarını içe
 - R²: 0.66
 ****************************************************************************************************
   
-### Gradient Boosting Regressor
+#### Gradient Boosting Regressor
 ##### Why we tried it:
 - Because of its capacity to learn more complex relationships.
 - It works with the concept of incremental learning.
@@ -98,7 +135,7 @@ Veri seti, öğrencilerin çeşitli özelliklerini ve sınav sonuçlarını içe
 
 ****************************************************************************************************
   
-### XGBoost
+#### XGBoost
 ##### Why we tried it:
 - Because it provides explainability of the features' impact on the target variable.
 - It also has fast computation capabilities.
