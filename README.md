@@ -12,6 +12,12 @@ Bu proje, öğrenci performansını etkileyen çeşitli faktörleri analiz etmey
 *   [Katkı](#katki)
 
 
+## Proje Özeti
+Bu proje, öğrenci başarılarını etkileyen faktörleri incelemekte ve bu faktörlere dayanarak öğrenci performansını tahmin etmektedir. Öğrencilerin akademik başarılarını etkileyen faktörler, çalışma alışkanlıkları, ebeveyn katılımı, ders dışı etkinliklere katılım, uyku düzeni, önceki sınav notları, öğretmen kalitesi gibi bir dizi önemli faktörü içermektedir.
+
+Projede kullanılan makine öğrenimi modelleri, bu faktörleri analiz ederek öğrenci başarıları üzerinde tahminler yapmaktadır.
+
+
 ## Veri Seti
 Bu veri seti, öğrencilerin sınav başarılarını etkileyen çeşitli faktörleri kapsamlı bir şekilde incelemektedir. Veri seti, çalışma alışkanlıkları, devamsızlık, ebeveyn katılımı ve diğer akademik başarıyı etkileyen etmenleri içermektedir.
 
