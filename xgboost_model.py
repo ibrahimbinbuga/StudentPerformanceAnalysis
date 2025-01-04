@@ -6,6 +6,25 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_absolute_error
 
+# Etkileşimli özellikleri eklemek için bir fonksiyon
+def add_interactions(X):
+    # Örnek etkileşimli özellikler
+    X['Previous_Scores_Motivation_Interaction'] = X['Previous_Scores'] * X['Motivation_Level']
+    X['Family_Income_Access_To_Resources_Interaction'] = X['Family_Income'] * X['Access_to_Resources']
+    X['Internet_Access_Access_To_Resources_Interaction'] = X['Internet_Access'] * X['Access_to_Resources']
+    X['Physical_Activity_Motivation_Interaction'] = X['Physical_Activity'] * X['Motivation_Level']
+    X['Family_Income_Tutoring_Sessions_Interaction'] = X['Family_Income'] * X['Tutoring_Sessions']
+    X['Family_Income_School_Type_Interaction'] = X['Family_Income'] * X['School_Type']
+    X['Peer_Influence_Parental_Involvement_Motivation_Interaction'] = X['Peer_Influence'] * X['Parental_Involvement'] * X['Motivation_Level']
+    X['Distance_Sleep_Interaction'] = X['Distance_from_Home'] * X['Sleep_Hours']
+    X['Parental_Involvement_Motivation_Interaction'] = X['Parental_Involvement'] * X['Motivation_Level']
+    X['Peer_Influence_Motivation_Interaction'] = X['Peer_Influence'] * X['Motivation_Level']
+    return X
+
+# Eğitim verisini hazırlarken kullanılan etkileşimli özellikleri test verisine de ekleyin
+data_prep.X_train = add_interactions(data_prep.X_train)
+data_prep.X_test = add_interactions(data_prep.X_test)
+
 # 1. XGBoost modelini oluştur
 xgb_model = xgb.XGBRegressor(random_state=42)
 

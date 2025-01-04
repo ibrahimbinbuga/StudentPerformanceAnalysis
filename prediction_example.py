@@ -3,13 +3,13 @@ import xgboost_model
 
 # Öğrencinin verisini bir sözlük olarak tanımlayın
 student_data = {
-    'Hours_Studied': 3,                    # Haftalık çalışma saati
-    'Attendance': 10,                       # Katılım oranı (%)
+    'Hours_Studied': 30,                    # Haftalık çalışma saati
+    'Attendance': 100,                       # Katılım oranı (%)
     'Parental_Involvement': 2,              # Aile katılımı (3: High)
     'Access_to_Resources': 2,               # Kaynaklara erişim (2: Medium)
     'Extracurricular_Activities': 1,        # Ekstra aktivitelerde katılım (1: Yes)
     'Sleep_Hours': 7,                       # Uyku saati
-    'Previous_Scores': 10,                  # Önceki sınav puanı
+    'Previous_Scores': 100,                  # Önceki sınav puanı
     'Motivation_Level': 2,                  # Motivasyon seviyesi (2: Medium)
     'Internet_Access': 1,                   # İnternet erişimi (1: Yes)
     'Tutoring_Sessions': 10,                # Katılınan özel ders sayısı
