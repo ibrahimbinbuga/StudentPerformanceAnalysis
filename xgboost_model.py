@@ -5,26 +5,6 @@ import xgboost as xgb
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_absolute_error
-import matplotlib.pyplot as plt
-
-# Etkileşimli özellikleri eklemek için bir fonksiyon
-def add_interactions(X):
-    # Örnek etkileşimli özellikler
-    X['Previous_Scores_Motivation_Interaction'] = X['Previous_Scores'] * X['Motivation_Level']
-    X['Family_Income_Access_To_Resources_Interaction'] = X['Family_Income'] * X['Access_to_Resources']
-    X['Internet_Access_Access_To_Resources_Interaction'] = X['Internet_Access'] * X['Access_to_Resources']
-    X['Physical_Activity_Motivation_Interaction'] = X['Physical_Activity'] * X['Motivation_Level']
-    X['Family_Income_Tutoring_Sessions_Interaction'] = X['Family_Income'] * X['Tutoring_Sessions']
-    X['Family_Income_School_Type_Interaction'] = X['Family_Income'] * X['School_Type']
-    X['Peer_Influence_Parental_Involvement_Motivation_Interaction'] = X['Peer_Influence'] * X['Parental_Involvement'] * X['Motivation_Level']
-    X['Distance_Sleep_Interaction'] = X['Distance_from_Home'] * X['Sleep_Hours']
-    X['Parental_Involvement_Motivation_Interaction'] = X['Parental_Involvement'] * X['Motivation_Level']
-    X['Peer_Influence_Motivation_Interaction'] = X['Peer_Influence'] * X['Motivation_Level']
-    return X
-
-# Eğitim verisini hazırlarken kullanılan etkileşimli özellikleri test verisine de ekleyin
-data_prep.X_train = add_interactions(data_prep.X_train)
-data_prep.X_test = add_interactions(data_prep.X_test)
 
 # 1. XGBoost modelini oluştur
 xgb_model = xgb.XGBRegressor(random_state=42)
@@ -45,16 +25,18 @@ test_mae = mean_absolute_error(data_prep.y_test, y_test_pred)
 
 print(f"XGBoost - Train MSE: {train_mse:.2f}")
 print(f"XGBoost - Test MSE: {test_mse:.2f}")
+
 print(f"XGBoost - Train MAE: {train_mae:.2f}")
 print(f"XGBoost - Test MAE: {test_mae:.2f}")
+
 print(f"XGBoost - Train R²: {train_r2:.2f}")
 print(f"XGBoost - Test R²: {test_r2:.2f}")
 
-# Grafik: Actual vs Prediction
+import matplotlib.pyplot as plt
 plt.figure(figsize=(10, 6))
 plt.scatter(data_prep.y_test, y_test_pred, alpha=0.6, color='dodgerblue', edgecolor='k', label='Tahminler')
-plt.plot([data_prep.y_test.min(), data_prep.y_test.max()],
-         [data_prep.y_test.min(), data_prep.y_test.max()],
+plt.plot([data_prep.y_test.min(), data_prep.y_test.max()], 
+         [data_prep.y_test.min(), data_prep.y_test.max()], 
          color='red', linewidth=2, linestyle='--', label='Doğru Çizgi (y=x)')
 plt.xlabel("Actual values", fontsize=12)
 plt.ylabel("Prediction values", fontsize=12)
@@ -74,7 +56,6 @@ param_grid = {
 }
 
 grid_search = GridSearchCV(estimator=xgb_model, param_grid=param_grid, cv=3, scoring='neg_mean_squared_error', verbose=1, n_jobs=-1)
-
 grid_search.fit(data_prep.X_train, data_prep.y_train)
 
 # En iyi parametreleri bul
@@ -98,8 +79,10 @@ test_mae_best = mean_absolute_error(data_prep.y_test, y_test_pred_best)
 
 print(f"XGBoost (Tuned) - Train MSE: {train_mse_best:.2f}")
 print(f"XGBoost (Tuned) - Test MSE: {test_mse_best:.2f}")
+
 print(f"XGBoost (Tuned) - Train MAE: {train_mae_best:.2f}")
 print(f"XGBoost (Tuned) - Test MAE: {test_mae_best:.2f}")
+
 print(f"XGBoost (Tuned) - Train R²: {train_r2_best:.2f}")
 print(f"XGBoost (Tuned) - Test R²: {test_r2_best:.2f}")
 
@@ -119,11 +102,12 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[0].values,
                                      base_values=shap_values[0].base_values,
                                      data=data_prep.X_test.iloc[0]))
 
-# Grafik: Actual vs Prediction
+# Grafik
+import matplotlib.pyplot as plt
 plt.figure(figsize=(10, 6))
 plt.scatter(data_prep.y_test, y_test_pred_best, alpha=0.6, color='dodgerblue', edgecolor='k', label='Tahminler')
-plt.plot([data_prep.y_test.min(), data_prep.y_test.max()],
-         [data_prep.y_test.min(), data_prep.y_test.max()],
+plt.plot([data_prep.y_test.min(), data_prep.y_test.max()], 
+         [data_prep.y_test.min(), data_prep.y_test.max()], 
          color='red', linewidth=2, linestyle='--', label='Doğru Çizgi (y=x)')
 plt.xlabel("Actual values", fontsize=12)
 plt.ylabel("Prediction values", fontsize=12)
@@ -132,3 +116,4 @@ plt.legend(fontsize=10, loc='upper left')
 plt.grid(alpha=0.4, linestyle='--')
 plt.tight_layout()
 plt.show()
+
