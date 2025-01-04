@@ -151,3 +151,51 @@ Four models were trained.
 - R²: 0.75
 
 ****************************************************************************************************
+
+
+## Installation and Usage
+#### Prerequisites:
+To run this project, you need the following Python libraries:
+```
+pandas
+numpy
+scikit-learn
+xgboost
+matplotlib
+seaborn
+```
+You can install the required dependencies using pip:
+
+
+```pip install -r requirements.txt```
+### Running the Project:
+- Clone the repository:
+
+```
+git clone https://github.com/yourusername/student-performance-prediction.git
+cd student-performance-prediction 
+```
+- Download the dataset:
+  
+Download the "Student Performance Factors" dataset from Kaggle and place it in the data/ directory.
+
+- Train the Model:
+  
+Run the following script to train the model and evaluate its performance:
+
+```
+python xgboost_model.py
+```
+- Make Predictions:
+
+Once the model is trained, use it to make predictions on new data:
+
+```
+python predict.py
+```
+- Visualize Results:
+  
+Use the following script to visualize the results:
+```
+python graphs.py
+```
