@@ -2,29 +2,26 @@
 
 ## Project Description
 This project is a machine learning project aimed at analyzing various factors affecting student performance. The project seeks to examine factors influencing students' academic success and make predictions based on these factors. The dataset includes many variables such as study habits, attendance, and parental involvement.
-****************************************************************************************************
+
 ## İçindekiler
 *   [Project Summary](#project-summary)
 *   [Dataset](#dataset)
 *   [Data Preparation](#data-preparation)
 *   [Model Training](#model-traning)
-*   [Usage](#usage)
-*   [Test ve Değerlendirme](#test-ve-degerlendirme)
-*   [Contribution](#contribution)
-****************************************************************************************************
+*   [Installation and Usage](#installation-and-usage)
 
 ## Project Summary
 This project analyzes factors affecting student success and predicts student performance based on these factors. The significant factors influencing students' academic success include study habits, parental involvement, participation in extracurricular activities, sleep patterns, previous exam scores, and teacher quality.
 
 The machine learning models used in the project analyze these factors to predict academic performance.
 
-****************************************************************************************************
+
 ## Dataset
 This dataset comprehensively examines various factors affecting students' exam success. It includes variables such as study habits, attendance, parental involvement, and other factors influencing academic performance.
 
 The dataset contains various student attributes and exam results. These attributes include study time, school attendance rate, parental involvement level, resource accessibility, sleep hours, and more. Each of these factors plays an essential role in impacting exam success.
 
-| **Sütun Adı**              | **Açıklama**                                                                 |
+| **Column Name**              | **Describtion**                                                                 |
 |----------------------------|-----------------------------------------------------------------------------|
 | **Hours_Studied**           | Number of study hours per week.                                      |
 | **Attendance**              | 	Percentage of classes attended.                                          |
@@ -83,11 +80,10 @@ The data preparation process was carried out in the following steps:
 #### Final Preprocessed Data:
 
 - The preprocessed data was saved into StudentPerformanceMapped.csv for reproducibility and reference.
-****************************************************************************************************
+
 ## Model Training
 Four models were trained.
 
-****************************************************************************************************
 
 #### Linear Model
 ##### Reasons for Selection:
@@ -150,7 +146,6 @@ Four models were trained.
 - Mean Absolute Error (MAE): 0.68
 - R²: 0.75
 
-****************************************************************************************************
 
 
 ## Installation and Usage
@@ -191,7 +186,7 @@ python xgboost_model.py
 Once the model is trained, use it to make predictions on new data:
 
 ```
-python predict.py
+python prediction_example.py
 ```
 - Visualize Results:
   
