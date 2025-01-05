@@ -3,11 +3,11 @@
 ## Project Description
 This project is a machine learning project aimed at analyzing various factors affecting student performance. The project seeks to examine factors influencing students' academic success and make predictions based on these factors. The dataset includes many variables such as study habits, attendance, and parental involvement.
 
-## İçindekiler
+## Outline
 *   [Project Summary](#project-summary)
 *   [Dataset](#dataset)
 *   [Data Preparation](#data-preparation)
-*   [Model Training](#model-traning)
+*   [Model Training](#model-training)
 *   [Installation and Usage](#installation-and-usage)
 
 ## Project Summary
@@ -96,6 +96,11 @@ Four models were trained.
 - Mean Absolute Error (MAE): 0.46
 - R²: 0.77
 
+Run the following script to train the model and evaluate its performance:
+```
+python linear_regression.py
+```
+
 ****************************************************************************************************
 
 
@@ -111,6 +116,11 @@ Four models were trained.
 - Mean Squared Error (MSE): 4.61
 - Mean Absolute Error (MAE): 1.13
 - R²: 0.66
+
+Run the following script to train the model and evaluate its performance:
+```
+python random_forest.py
+```
 ****************************************************************************************************
   
 #### Gradient Boosting Regressor
@@ -123,6 +133,9 @@ Four models were trained.
 - Mean Squared Error (MSE): 3.96
 - Mean Absolute Error (MAE): 0.83
 - R²: 0.71
+```
+python gradient_boosting.py 
+```
 
 ****************************************************************************************************
   
@@ -145,8 +158,10 @@ Four models were trained.
 - Mean Squared Error (MSE): 3.46
 - Mean Absolute Error (MAE): 0.68
 - R²: 0.75
-
-
+Run the following script to train the model and evaluate its performance:
+```
+python xgboost_model.py
+```
 
 ## Installation and Usage
 #### Prerequisites:
@@ -158,25 +173,32 @@ scikit-learn
 xgboost
 matplotlib
 seaborn
+shap
 ```
-You can install the required dependencies using pip:
 
+You can install the required dependencies using pip:
 
 ```pip install -r requirements.txt```
 ### Running the Project:
+
 - Clone the repository:
 
 ```
-git clone https://github.com/yourusername/student-performance-prediction.git
-cd student-performance-prediction 
+git clone 
+cd student-performance-prediction
+https://github.com/ibrahimbinbuga/StudentPerformanceAnalysis.git
 ```
-- Download the dataset:
+
+- Visualize Results:
   
-Download the "Student Performance Factors" dataset from Kaggle and place it in the data/ directory.
+Use the following script to visualize the results:
+```
+python graphs.py
+```
 
 - Train the Model:
   
-Run the following script to train the model and evaluate its performance:
+Run the following script to train the selected model and evaluate its performance:
 
 ```
 python xgboost_model.py
@@ -187,10 +209,4 @@ Once the model is trained, use it to make predictions on new data:
 
 ```
 python prediction_example.py
-```
-- Visualize Results:
-  
-Use the following script to visualize the results:
-```
-python graphs.py
 ```
