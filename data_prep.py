@@ -4,56 +4,44 @@ from sklearn.impute import KNNImputer
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
-# 1. Veriyi yükleme
+
+# dataset
 data = pd.read_csv("StudentPerformanceFactors.csv")
 
-# 2. Kategorik ve sayısal sütunları ayırma
+# separating categorical and numeric columns
 numeric_columns = data.select_dtypes(include=['int64', 'float64']).columns
 categorical_columns = data.select_dtypes(include=['object']).columns
 
-# 3. Eksik veri analizi
+# missing value analysis
 missing_summary = data.isnull().sum()
-print("Eksik veri sayısı:")
+print("Missing values:")
 print(missing_summary)
 
-# 4. Eksik kategorik verileri mod ile doldurma
+# filling in missing categorical data with mode
 for col in categorical_columns:
     if data[col].isnull().sum() > 0:
         data[col].fillna(data[col].mode()[0], inplace=True)
 
-# 5. Eksik sayısal verileri KNN ile doldurmak için hazırlık
+# scaler
 scaler = MinMaxScaler()
 numeric_data_scaled = scaler.fit_transform(data[numeric_columns])
 
-# 6. KNN ile eksik verileri doldurma
+# filling in missing data with KNN
 knn_imputer = KNNImputer(n_neighbors=5)
 numeric_data_imputed = knn_imputer.fit_transform(numeric_data_scaled)
 
-# 7. Veriyi orijinal ölçeğe geri döndürme
+# returning data to original scale
 numeric_data_restored = scaler.inverse_transform(numeric_data_imputed)
 numeric_data_restored_df = pd.DataFrame(numeric_data_restored, columns=numeric_columns)
 
-# 8. Sayısal sütunları güncelleme
+# updating numeric columns
 data[numeric_columns] = numeric_data_restored_df
 
-# 9. Son eksik veri kontrolü
+# final missing data check
 missing_after = data.isnull().sum().sum()
-print(f"Son eksik veri sayısı: {missing_after}")
+print(f"Final missing values: {missing_after}")
 
 data.to_csv("StudentPerformanceFactorsFilled.csv", index=False)
-
-
-# Son eksik veri kontrolü
-missing_after = data.isnull().sum().sum()
-print(f"Son eksik veri sayısı: {missing_after}")
-
-# Kategorik verilerin dağılımı (Bar grafik)
-for col in categorical_columns:
-    plt.figure(figsize=(8, 6))
-    sns.countplot(data[col])
-    plt.title(f'{col} Dağılımı')
-    plt.show()
-
 
 
 priority_mapping = {'Low': 0, 'Medium': 1, 'High': 2}
@@ -96,11 +84,12 @@ sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
 plt.show()
 
 target_variable = 'Exam_Score'
-# Özellikler (features) ve hedef değişkeni (target) ayırma
-X = data.drop(columns=[target_variable])  # Özellikler
-y = data[target_variable]  # Hedef değişken
 
-# Etkileşim terimlerini oluşturma
+# features and target variable
+X = data.drop(columns=[target_variable])  # features
+y = data[target_variable]  # target variable
+
+# creating interaction terms
 X['Distance_Sleep_Interaction'] = X['Distance_from_Home'] * X['Sleep_Hours']
 X['Previous_Scores_Motivation_Interaction'] = X['Previous_Scores'] * X['Motivation_Level']
 X['Parental_Involvement_Motivation_Interaction'] = X['Parental_Involvement'] * X['Motivation_Level']
@@ -114,5 +103,5 @@ X['Peer_Influence_Parental_Involvement_Motivation_Interaction'] = X['Peer_Influe
 
 from sklearn.model_selection import train_test_split
 
-# Veriyi eğitim (%70) ve test (%30) olarak ayırma
+# split the data test and train
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)

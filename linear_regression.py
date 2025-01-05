@@ -4,16 +4,16 @@ from sklearn.metrics import mean_squared_error, r2_score
 import pandas as pd
 from sklearn.metrics import mean_absolute_error
 
-# Modeli tanımlama
+# define the model
 linear_model = LinearRegression()
 
-# Lineer regresyon modelini eğitme
+# train the model
 linear_model.fit(data_prep.X_train, data_prep.y_train)
 
-# Test verisi üzerinde tahmin yapma
+# prediction
 y_pred = linear_model.predict(data_prep.X_test)
 
-# Performans metriği (MSE ve R²)
+# performance metrics
 mse = mean_squared_error(data_prep.y_test, y_pred)
 r2 = r2_score(data_prep.y_test, y_pred)
 mae = mean_absolute_error(data_prep.y_test, y_pred)
@@ -28,7 +28,7 @@ coefficients = pd.DataFrame({
 })
 print(coefficients.sort_values(by="Coefficient", ascending=False))
 
-# Grafik
+# graph
 import matplotlib.pyplot as plt
 plt.figure(figsize=(10, 6))
 plt.scatter(data_prep.y_test, y_pred, alpha=0.6, color='dodgerblue', edgecolor='k', label='Tahminler')

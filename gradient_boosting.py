@@ -23,17 +23,17 @@ grid_search.fit(data_prep.X_train, data_prep.y_train)
 print("Best parameters:", grid_search.best_params_)
 best_model = grid_search.best_estimator_
 
-# Modeli tanımlama
+# define model
 gbr = GradientBoostingRegressor(n_estimators=100, learning_rate=0.1, max_depth=5, random_state=42)
 
-# Modeli eğitme
+# train the model
 gbr.fit(data_prep.X_train, data_prep.y_train)
 
-# Tahminler
+# predictions
 y_pred_train_gbr = gbr.predict(data_prep.X_train)
 y_pred_test_gbr = gbr.predict(data_prep.X_test)
 
-# Performans metrikleri
+# performance metrics
 train_mse_gbr = mean_squared_error(data_prep.y_train, y_pred_train_gbr)
 test_mse_gbr = mean_squared_error(data_prep.y_test, y_pred_test_gbr)
 
@@ -65,18 +65,15 @@ plt.show()
 
 import shap
 
-# SHAP için bir açıklayıcı oluştur
+# SHAP
 explainer = shap.Explainer(gbr, data_prep.X_train)
 shap_values = explainer(data_prep.X_test)
 
-# 1.1 Global Önem Grafiği
+# importance graph
 shap.summary_plot(shap_values, data_prep.X_test, plot_type="bar")
 
-# 1.2 Detaylı Global Özet
 shap.summary_plot(shap_values, data_prep.X_test)
 
-# 1.3 Bireysel Tahmin Açıklaması
-# Örneğin, X_test'in ilk satırı için
 shap.waterfall_plot(shap.Explanation(values=shap_values[0].values,
                                      base_values=shap_values[0].base_values,
                                      data=data_prep.X_test.iloc[0]))

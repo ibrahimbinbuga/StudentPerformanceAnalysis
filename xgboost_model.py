@@ -6,9 +6,8 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_absolute_error
 
-# Etkileşimli özellikleri eklemek için bir fonksiyon
+# a function to add interactive features
 def add_interactions(X):
-    # Örnek etkileşimli özellikler
     X['Previous_Scores_Motivation_Interaction'] = X['Previous_Scores'] * X['Motivation_Level']
     X['Family_Income_Access_To_Resources_Interaction'] = X['Family_Income'] * X['Access_to_Resources']
     X['Internet_Access_Access_To_Resources_Interaction'] = X['Internet_Access'] * X['Access_to_Resources']
@@ -21,17 +20,16 @@ def add_interactions(X):
     X['Peer_Influence_Motivation_Interaction'] = X['Peer_Influence'] * X['Motivation_Level']
     return X
 
-# Eğitim verisini hazırlarken kullanılan etkileşimli özellikleri test verisine de ekleyin
 data_prep.X_train = add_interactions(data_prep.X_train)
 data_prep.X_test = add_interactions(data_prep.X_test)
 
-# 1. XGBoost modelini oluştur
+# xgboost model
 xgb_model = xgb.XGBRegressor(random_state=42)
 
-# 2. Modeli eğit (Varsayılan parametrelerle)
+# train the model
 xgb_model.fit(data_prep.X_train, data_prep.y_train)
 
-# 3. Tahmin yap ve sonuçları değerlendir
+# prediction
 y_train_pred = xgb_model.predict(data_prep.X_train)
 y_test_pred = xgb_model.predict(data_prep.X_test)
 
@@ -65,7 +63,7 @@ plt.grid(alpha=0.4, linestyle='--')
 plt.tight_layout()
 plt.show()
 
-# 4. Hiperparametre optimizasyonu (GridSearchCV ile)
+# hyperparameter optimization (with GridSearchCV)
 param_grid = {
     'n_estimators': [100, 200, 300],
     'max_depth': [3, 4, 5],
@@ -77,15 +75,15 @@ param_grid = {
 grid_search = GridSearchCV(estimator=xgb_model, param_grid=param_grid, cv=3, scoring='neg_mean_squared_error', verbose=1, n_jobs=-1)
 grid_search.fit(data_prep.X_train, data_prep.y_train)
 
-# En iyi parametreleri bul
+# best parameters
 best_params = grid_search.best_params_
 print(f"Best parameters: {best_params}")
 
-# 5. En iyi parametrelerle model eğitimi
+# model training with best parameters
 best_xgb_model = xgb.XGBRegressor(**best_params, random_state=42)
 best_xgb_model.fit(data_prep.X_train, data_prep.y_train)
 
-# 6. Tahmin yap ve sonuçları değerlendir
+# prediction
 y_train_pred_best = best_xgb_model.predict(data_prep.X_train)
 y_test_pred_best = best_xgb_model.predict(data_prep.X_test)
 
@@ -105,23 +103,19 @@ print(f"XGBoost (Tuned) - Test MAE: {test_mae_best:.2f}")
 print(f"XGBoost (Tuned) - Train R²: {train_r2_best:.2f}")
 print(f"XGBoost (Tuned) - Test R²: {test_r2_best:.2f}")
 
-# SHAP için bir açıklayıcı oluştur
+# SHAP
 explainer = shap.Explainer(best_xgb_model, data_prep.X_train)
 shap_values = explainer(data_prep.X_test)
 
-# 1.1 Global Önem Grafiği
 shap.summary_plot(shap_values, data_prep.X_test, plot_type="bar")
 
-# 1.2 Detaylı Global Özet
 shap.summary_plot(shap_values, data_prep.X_test)
 
-# 1.3 Bireysel Tahmin Açıklaması
-# Örneğin, X_test'in ilk satırı için
 shap.waterfall_plot(shap.Explanation(values=shap_values[0].values,
                                      base_values=shap_values[0].base_values,
                                      data=data_prep.X_test.iloc[0]))
 
-# Grafik
+# graph
 import matplotlib.pyplot as plt
 plt.figure(figsize=(10, 6))
 plt.scatter(data_prep.y_test, y_test_pred_best, alpha=0.6, color='dodgerblue', edgecolor='k', label='Tahminler')
